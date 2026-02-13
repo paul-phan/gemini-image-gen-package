@@ -43,10 +43,15 @@ Generate high-quality images using Google Gemini models through CLIProxyAPI.
 ### Image-to-Image with Reference
 
 ```bash
-# Change style of existing photo
+# Single reference image
 ~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   -r ./my-photo.jpg \
   "Change background to professional office setting"
+
+# Multiple reference images (NEW!)
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
+  -r ./face.jpg -r ./outfit.jpg -r ./background.jpg \
+  "Combine these into a cohesive portrait"
 
 # Modify specific elements
 ~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
@@ -56,18 +61,18 @@ Generate high-quality images using Google Gemini models through CLIProxyAPI.
 
 ## Image-to-Image (Reference Mode)
 
-Use the `-r` flag to provide a reference image for editing or style transfer:
+Use the `-r` flag to provide reference image(s) for editing or style transfer:
 
 ```bash
-# Basic usage with reference
+# Basic usage with single reference
 python3 generate_image.py \
   -r ./my-photo.jpg \
   "Change background to beach sunset"
 
-# Advanced editing
+# Multiple reference images (NEW!)
 python3 generate_image.py \
-  -r ./portrait.png \
-  "Make this person look like they're in a sci-fi movie poster"
+  -r ./face.jpg -r ./outfit.jpg -r ./background.jpg \
+  "Combine these references into a cohesive portrait"
 
 # Style transfer
 python3 generate_image.py \

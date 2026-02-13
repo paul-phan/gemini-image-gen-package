@@ -1,23 +1,24 @@
 #!/bin/bash
 # Gemini Image Generation Wrapper
-# Usage: gemini-image [-r ref_image] "prompt" [output-file]
+# Usage: gemini-image [-r ref_image]... "prompt" [output-file]
+# Supports multiple reference images
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Default values
-DEFAULT_DIR="${GEMINI_OUTPUT_DIR:-$HOME/clawd/tmp}"
+DEFAULT_DIR="${GEMINI_OUTPUT_DIR:-$HOME/.openclaw/workspace/tmp}"
 mkdir -p "$DEFAULT_DIR"
 
 MODEL="${GEMINI_MODEL:-gemini-3-pro-image}"
 PROXY_URL="${GEMINI_PROXY_URL:-http://127.0.0.1:8317}"
 API_KEY="${GEMINI_API_KEY:-local-api-key}"
-REF_IMAGE=""
+REF_IMAGES=()
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
   case $1 in
     -r|--ref)
-      REF_IMAGE="$2"
+      REF_IMAGES+=("$2")
       shift 2
       ;;
     *)
@@ -33,10 +34,10 @@ OUTPUT="${2:-$DEFAULT_DIR/generated_image.png}"
 # Build command
 CMD="python3 \"$SCRIPT_DIR/generate_image.py\" \"$PROMPT\" -o \"$OUTPUT\" -m \"$MODEL\" --proxy-url \"$PROXY_URL\" --api-key \"$API_KEY\""
 
-# Add ref if provided
-if [ -n "$REF_IMAGE" ]; then
-  CMD="$CMD -r \"$REF_IMAGE\""
-fi
+# Add all ref images if provided
+for ref in "${REF_IMAGES[@]}"; do
+  CMD="$CMD -r \"$ref\""
+done
 
 # Run
 eval $CMD

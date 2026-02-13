@@ -58,16 +58,22 @@ cp -r skill ~/.openclaw/workspace/skills/gemini-image-gen
 # Generate image
 ~/.openclaw/workspace/skills/gemini-image-gen/gemini-image "A cute robot"
 
-# With reference image
+# With single reference image
 ~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   -r ./logo.png \
   "Create a hero banner with this logo"
+
+# With multiple reference images (NEW!)
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
+  -r ./face.png -r ./outfit.png -r ./background.png \
+  "Combine these into a portrait"
 ```
 
 ## 🎯 Features
 
 - **Text-to-Image:** Generate images from text prompts
 - **Image-to-Image:** Edit images using reference photos
+- **Multiple References:** Combine multiple images into one (NEW!)
 - **Multiple Models:** gemini-3-pro-image (4K) & gemini-2.5-flash-image (fast)
 - **Default Output:** Saves to `~/.openclaw/workspace/tmp/`
 

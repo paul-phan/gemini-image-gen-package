@@ -2,7 +2,7 @@
 """
 Gemini Image Generation via CLIProxyAPI
 Generate images using Google Gemini models through CLIProxyAPI
-Supports: text-to-image and image-to-image (with reference)
+Supports: text-to-image and image-to-image (with single or multiple references)
 """
 
 import argparse
@@ -40,7 +40,7 @@ def generate_image(
     model: str = "gemini-3-pro-image",
     proxy_url: str = "http://127.0.0.1:8317",
     api_key: str = "local-api-key",
-    reference_image: str = None
+    reference_images: list = None
 ) -> str:
     """Generate image using CLIProxyAPI"""
     
@@ -49,19 +49,20 @@ def generate_image(
     # Build parts array
     parts = []
     
-    # Add reference image if provided
-    if reference_image:
-        if not os.path.exists(reference_image):
-            raise Exception(f"Reference image not found: {reference_image}")
-        
-        image_b64, mime_type = encode_image_to_base64(reference_image)
-        parts.append({
-            "inlineData": {
-                "mimeType": mime_type,
-                "data": image_b64
-            }
-        })
-        print(f"📎 Using reference image: {reference_image}")
+    # Add reference images if provided (supports multiple)
+    if reference_images:
+        for i, ref_image in enumerate(reference_images, 1):
+            if not os.path.exists(ref_image):
+                raise Exception(f"Reference image not found: {ref_image}")
+            
+            image_b64, mime_type = encode_image_to_base64(ref_image)
+            parts.append({
+                "inlineData": {
+                    "mimeType": mime_type,
+                    "data": image_b64
+                }
+            })
+            print(f"📎 Reference {i}: {ref_image}")
     
     # Add text prompt
     parts.append({"text": prompt})
@@ -159,7 +160,10 @@ def main():
     )
     parser.add_argument(
         '-r', '--ref',
-        help='Reference image path for image-to-image generation'
+        nargs='*',
+        action='extend',
+        default=[],
+        help='Reference image path(s) for image-to-image generation. Can specify multiple: -r img1.png -r img2.png'
     )
     parser.add_argument(
         '--proxy-url',
@@ -177,7 +181,7 @@ def main():
     print(f"🎨 Generating image with {args.model}...")
     print(f"📝 Prompt: {args.prompt[:80]}...")
     if args.ref:
-        print(f"📎 Reference: {args.ref}")
+        print(f"📎 References: {len(args.ref)} image(s)")
     
     try:
         output_file = generate_image(
@@ -186,7 +190,7 @@ def main():
             model=args.model,
             proxy_url=args.proxy_url,
             api_key=args.api_key,
-            reference_image=args.ref
+            reference_images=args.ref if args.ref else None
         )
         print(f"✅ Image saved to: {output_file}")
         

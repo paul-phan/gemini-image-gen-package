@@ -75,12 +75,18 @@ cd /path/to/gemini-image-gen-package
 # Output: ~/.openclaw/workspace/tmp/generated_image.png
 ```
 
-### With Reference Image
+### With Reference Image(s)
 
 ```bash
+# Single reference
 ~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   -r ./my-logo.png \
   "Create a hero banner with this logo"
+
+# Multiple references (NEW!)
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
+  -r ./face.png -r ./outfit.png -r ./background.png \
+  "Combine these into a portrait"
 ```
 
 ### Custom Output
@@ -130,7 +136,7 @@ gemini-image-gen-package/
 # Should output:
 # 🎨 Generating image with gemini-3-pro-image...
 # 📝 Prompt: A cute cat...
-# ✅ Image saved to: /Users/YOU/clawd/tmp/generated_image.png
+# ✅ Image saved to: /Users/YOU/.openclaw/workspace/tmp/generated_image.png
 # 📦 Size: XXX.X KB
 ```
 
