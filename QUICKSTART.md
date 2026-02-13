@@ -71,14 +71,14 @@ cd /path/to/gemini-image-gen-package
 ### Generate Image
 
 ```bash
-~/clawd/skills/gemini-image-gen/gemini-image "A futuristic city"
-# Output: ~/clawd/tmp/generated_image.png
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image "A futuristic city"
+# Output: ~/.openclaw/workspace/tmp/generated_image.png
 ```
 
 ### With Reference Image
 
 ```bash
-~/clawd/skills/gemini-image-gen/gemini-image \
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   -r ./my-logo.png \
   "Create a hero banner with this logo"
 ```
@@ -86,7 +86,7 @@ cd /path/to/gemini-image-gen-package
 ### Custom Output
 
 ```bash
-~/clawd/skills/gemini-image-gen/gemini-image \
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   "A serene landscape" \
   ./my-landscape.png
 ```
@@ -116,7 +116,7 @@ gemini-image-gen-package/
 
 ## 💡 Pro Tips
 
-1. **Default output:** `~/clawd/tmp/`
+1. **Default output:** `~/.openclaw/workspace/tmp/`
 2. **Best quality:** Use `gemini-3-pro-image` (default)
 3. **Fastest:** Use `-m gemini-2.5-flash-image`
 4. **Reference images:** Works with PNG, JPG, WEBP
@@ -125,7 +125,7 @@ gemini-image-gen-package/
 
 ```bash
 # Test generation
-~/clawd/skills/gemini-image-gen/gemini-image "A cute cat"
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image "A cute cat"
 
 # Should output:
 # 🎨 Generating image with gemini-3-pro-image...

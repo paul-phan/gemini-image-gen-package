@@ -143,7 +143,7 @@ tail -f /tmp/cliproxyapi.log
 | CLIProxyAPI binary | `~/Workspace/CLIProxyAPI/cliproxyapi` |
 | Config file | `~/Workspace/CLIProxyAPI/config.yaml` |
 | Auth credentials | `~/.gemini/` |
-| Generated images | `~/clawd/tmp/` |
+| Generated images | `~/.openclaw/workspace/tmp/` |
 | Logs | `/tmp/cliproxyapi.log` |
 
 ## 🔐 API Key

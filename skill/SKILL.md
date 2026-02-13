@@ -17,17 +17,17 @@ Generate high-quality images using Google Gemini models through CLIProxyAPI.
 
 ## Quick Start
 
-### Generate an image (saved to ~/clawd/tmp/)
+### Generate an image (saved to ~/.openclaw/workspace/tmp/)
 
 ```bash
-~/clawd/skills/gemini-image-gen/gemini-image "A cute robot eating a banana"
-# Output: ~/clawd/tmp/generated_image.png
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image "A cute robot eating a banana"
+# Output: ~/.openclaw/workspace/tmp/generated_image.png
 ```
 
 ### Specify custom output file
 
 ```bash
-~/clawd/skills/gemini-image-gen/gemini-image \
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   "A serene Japanese garden" \
   ./my-garden.png
 ```
@@ -35,7 +35,7 @@ Generate high-quality images using Google Gemini models through CLIProxyAPI.
 ### Use different model (faster)
 
 ```bash
-~/clawd/skills/gemini-image-gen/gemini-image \
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   "Quick sketch of a cat" \
   -m gemini-2.5-flash-image
 ```
@@ -44,12 +44,12 @@ Generate high-quality images using Google Gemini models through CLIProxyAPI.
 
 ```bash
 # Change style of existing photo
-~/clawd/skills/gemini-image-gen/gemini-image \
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   -r ./my-photo.jpg \
   "Change background to professional office setting"
 
 # Modify specific elements
-~/clawd/skills/gemini-image-gen/gemini-image \
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   -r ./portrait.png \
   "Add sunglasses and make it look like a movie poster"
 ```
@@ -102,7 +102,7 @@ python3 generate_image.py \
 
 ## Default Output Location
 
-Images are saved to `~/clawd/tmp/` by default. You can change this with `-o` flag.
+Images are saved to `~/.openclaw/workspace/tmp/` by default. You can change this with `-o` flag.
 
 ## Usage
 
@@ -171,7 +171,7 @@ Use in OpenClaw sessions:
 
 ```python
 # Generate image for a project
-!python3 ~/clawd/skills/gemini-image-gen/generate_image.py \
+!python3 ~/.openclaw/workspace/skills/gemini-image-gen/generate_image.py \
   "Hero image for tech startup website, modern minimalist style" \
   -o ./assets/hero.png
 ```

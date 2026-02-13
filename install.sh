@@ -1,6 +1,6 @@
 #!/bin/bash
 # Quick install script for Gemini Image Generation Skill
-# This script installs the skill to ~/clawd/skills/
+# This script installs the skill to ~/.openclaw/workspace/skills/
 
 set -e
 
@@ -32,10 +32,10 @@ echo "1. Ensure CLIProxyAPI is running:"
 echo "   curl http://127.0.0.1:8317/v1/models"
 echo ""
 echo "2. Generate an image:"
-echo "   ~/clawd/skills/gemini-image-gen/gemini-image \"A cute robot\""
+echo "   ~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \"A cute robot\""
 echo ""
 echo "3. With reference image:"
-echo "   ~/clawd/skills/gemini-image-gen/gemini-image \\"
+echo "   ~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \\"
 echo "     -r ./photo.jpg \\"
 echo "     \"Change background to office setting\""
 echo ""

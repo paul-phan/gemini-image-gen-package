@@ -136,7 +136,7 @@ def generate_image(
     return output_path
 
 
-DEFAULT_OUTPUT_DIR = os.path.expanduser("~/clawd/tmp")
+DEFAULT_OUTPUT_DIR = os.path.expanduser("~/.openclaw/workspace/tmp")
 
 def main():
     parser = argparse.ArgumentParser(
@@ -149,7 +149,7 @@ def main():
     parser.add_argument(
         '-o', '--output',
         default=os.path.join(DEFAULT_OUTPUT_DIR, 'generated_image.png'),
-        help='Output file path (default: ~/clawd/tmp/generated_image.png)'
+        help='Output file path (default: ~/.openclaw/workspace/tmp/generated_image.png)'
     )
     parser.add_argument(
         '-m', '--model',

@@ -53,13 +53,13 @@ gemini auth login
 
 ```bash
 # Copy skill to your workspace
-cp -r skill ~/clawd/skills/gemini-image-gen
+cp -r skill ~/.openclaw/workspace/skills/gemini-image-gen
 
 # Generate image
-~/clawd/skills/gemini-image-gen/gemini-image "A cute robot"
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image "A cute robot"
 
 # With reference image
-~/clawd/skills/gemini-image-gen/gemini-image \
+~/.openclaw/workspace/skills/gemini-image-gen/gemini-image \
   -r ./logo.png \
   "Create a hero banner with this logo"
 ```
@@ -69,7 +69,7 @@ cp -r skill ~/clawd/skills/gemini-image-gen
 - **Text-to-Image:** Generate images from text prompts
 - **Image-to-Image:** Edit images using reference photos
 - **Multiple Models:** gemini-3-pro-image (4K) & gemini-2.5-flash-image (fast)
-- **Default Output:** Saves to `~/clawd/tmp/`
+- **Default Output:** Saves to `~/.openclaw/workspace/tmp/`
 
 ## 📖 Documentation
 
