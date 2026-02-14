@@ -1,0 +1,150 @@
+#!/bin/bash
+# Image Montage Tool - Compose multiple images into one
+# Usage: montage-images [OPTIONS] IMAGE1 IMAGE2 [IMAGE3...]
+#
+# Options:
+#   -o, --output FILE    Output file (default: montage.png)
+#   -t, --tile WxH       Grid layout (default: auto)
+#   -g, --gap N          Gap between images in pixels (default: 10)
+#   -b, --bg COLOR       Background color (default: white)
+#   -r, --resize WxH     Resize each image before montage
+#   -h, --help           Show this help
+#
+# Examples:
+#   montage-images img1.jpg img2.jpg img3.jpg -o collage.png
+#   montage-images -t 2x2 -g 20 -b black *.jpg -o grid.png
+#   montage-images face.jpg outfit.jpg -t 2x1 -o ref-composite.png
+
+set -e
+
+# Default values
+OUTPUT="montage.png"
+TILE=""
+GAP="10"
+BG="white"
+RESIZE=""
+
+# Parse options
+POSITIONAL_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -o|--output)
+      OUTPUT="$2"
+      shift 2
+      ;;
+    -t|--tile)
+      TILE="$2"
+      shift 2
+      ;;
+    -g|--gap)
+      GAP="$2"
+      shift 2
+      ;;
+    -b|--bg)
+      BG="$2"
+      shift 2
+      ;;
+    -r|--resize)
+      RESIZE="$2"
+      shift 2
+      ;;
+    -h|--help)
+      sed -n '/^# Usage:/,/^$/p' "$0" | sed 's/^# //'
+      exit 0
+      ;;
+    -*)
+      echo "❌ Unknown option: $1" >&2
+      exit 1
+      ;;
+    *)
+      POSITIONAL_ARGS+=("$1")
+      shift
+      ;;
+  esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}"
+IMAGES=("$@")
+
+if [ ${#IMAGES[@]} -eq 0 ]; then
+  echo "❌ Error: No images provided" >&2
+  echo "Usage: montage-images [OPTIONS] IMAGE1 IMAGE2 [IMAGE3...]"
+  exit 1
+fi
+
+# Check if ImageMagick is installed
+if ! command -v montage &> /dev/null; then
+  echo "❌ Error: ImageMagick not installed" >&2
+  echo "Install: brew install imagemagick"
+  exit 1
+fi
+
+# Verify all images exist
+for img in "${IMAGES[@]}"; do
+  if [ ! -f "$img" ]; then
+    echo "❌ Error: Image not found: $img" >&2
+    exit 1
+  fi
+done
+
+# Auto-calculate tile if not specified
+if [ -z "$TILE" ]; then
+  COUNT=${#IMAGES[@]}
+  if [ $COUNT -eq 1 ]; then
+    TILE="1x1"
+  elif [ $COUNT -eq 2 ]; then
+    TILE="2x1"
+  elif [ $COUNT -eq 3 ]; then
+    TILE="3x1"
+  elif [ $COUNT -eq 4 ]; then
+    TILE="2x2"
+  elif [ $COUNT -le 6 ]; then
+    TILE="3x2"
+  elif [ $COUNT -le 9 ]; then
+    TILE="3x3"
+  else
+    COLS=$(echo "sqrt($COUNT)" | bc | awk '{print int($1+0.9)}')
+    ROWS=$(echo "($COUNT + $COLS - 1) / $COLS" | bc)
+    TILE="${COLS}x${ROWS}"
+  fi
+fi
+
+echo "🎨 Creating montage..."
+echo "📐 Layout: $TILE"
+echo "📏 Gap: ${GAP}px"
+echo "🎨 Background: $BG"
+echo "📷 Images: ${#IMAGES[@]}"
+
+# Build montage command
+CMD="montage"
+
+# Add resize if specified
+if [ -n "$RESIZE" ]; then
+  CMD="$CMD -resize $RESIZE"
+fi
+
+# Add all images
+for img in "${IMAGES[@]}"; do
+  CMD="$CMD \"$img\""
+done
+
+# Add layout options
+CMD="$CMD -tile $TILE -geometry +$GAP+$GAP -background $BG"
+
+# Add output
+CMD="$CMD \"$OUTPUT\""
+
+# Run
+echo ""
+eval $CMD
+
+if [ -f "$OUTPUT" ]; then
+  SIZE=$(stat -f%z "$OUTPUT" 2>/dev/null || stat -c%s "$OUTPUT" 2>/dev/null)
+  echo ""
+  echo "✅ Montage created: $OUTPUT"
+  echo "📦 Size: $(( SIZE / 1024 )) KB"
+else
+  echo "❌ Failed to create montage"
+  exit 1
+fi

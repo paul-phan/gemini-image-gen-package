@@ -24,6 +24,21 @@ Generate high-quality images using Google Gemini models through CLIProxyAPI.
 # Output: ~/.openclaw/workspace/tmp/generated_image.png
 ```
 
+### Compose multiple images using montage (NEW!)
+
+```bash
+# Quick collage
+~/.openclaw/workspace/skills/gemini-image-gen/skill/montage-images \
+  img1.jpg img2.jpg img3.jpg img4.jpg \
+  -o collage.png
+
+# Custom grid
+~/.openclaw/workspace/skills/gemini-image-gen/skill/montage-images \
+  -t 2x2 -g 20 -b black \
+  img1.jpg img2.jpg img3.jpg img4.jpg \
+  -o grid.png
+```
+
 ### Specify custom output file
 
 ```bash
